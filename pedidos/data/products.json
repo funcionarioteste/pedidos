@@ -1,0 +1,19 @@
+{
+  "products": [
+    { "id": "sensa-morango", "name": "Sensa Morango", "category": "Sensa", "ideal": 24 },
+    { "id": "sensa-chocolate", "name": "Sensa Chocolate", "category": "Sensa", "ideal": 24 },
+    { "id": "sensa-baunilha", "name": "Sensa Baunilha", "category": "Sensa", "ideal": 18 },
+
+    { "id": "picole-uva", "name": "Picolé Uva", "category": "Picolé", "ideal": 40 },
+    { "id": "picole-limao", "name": "Picolé Limão", "category": "Picolé", "ideal": 40 },
+    { "id": "picole-coco", "name": "Picolé Coco", "category": "Picolé", "ideal": 30 },
+
+    { "id": "pote-1l-napolitano", "name": "Pote 1L Napolitano", "category": "Potes", "ideal": 16 },
+    { "id": "pote-1l-flocos", "name": "Pote 1L Flocos", "category": "Potes", "ideal": 16 },
+    { "id": "pote-1l-dulce", "name": "Pote 1L Doce de Leite", "category": "Potes", "ideal": 16 },
+
+    { "id": "premium-pistache", "name": "Premium Pistache", "category": "Premium", "ideal": 12 },
+    { "id": "premium-amora", "name": "Premium Amora", "category": "Premium", "ideal": 12 },
+    { "id": "premium-cookies", "name": "Premium Cookies", "category": "Premium", "ideal": 12 }
+  ]
+}

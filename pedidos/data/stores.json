@@ -1,0 +1,7 @@
+{
+  "stores": [
+    { "id": "marti", "name": "Marti" },
+    { "id": "tamandare", "name": "Tamandaré" },
+    { "id": "pires", "name": "Pires" }
+  ]
+}

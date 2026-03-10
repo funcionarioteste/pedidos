@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Pedidos de Sorvete</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="title-area">
+        <h1>Sistema de Pedidos de Sorvete</h1>
+        <p class="subtitle">Checklist rápido de estoque e pedidos</p>
+      </div>
+      <div class="controls">
+        <label class="control">
+          <span>Loja</span>
+          <select id="storeSelect"></select>
+        </label>
+        <label class="control">
+          <span>Data do inventário</span>
+          <input type="date" id="dateInput" />
+        </label>
+        <div class="buttons">
+          <button id="saveBtn" class="primary">Salvar</button>
+          <button id="exportBtn" class="ghost">Exportar Excel</button>
+          <button id="resetBtn" class="ghost danger">Limpar</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="card">
+      <div class="table-wrapper">
+        <table id="productTable">
+          <thead>
+            <tr>
+              <th class="sticky">Produto</th>
+              <th class="sticky col-num">Estoque</th>
+              <th class="sticky col-num">Ideal</th>
+              <th class="sticky col-num">Pedir</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+          <tfoot>
+            <tr class="summary-row">
+              <td colspan="3">Total a pedir</td>
+              <td id="summaryTotal">0</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="storage.js"></script>
+  <script src="calculations.js"></script>
+  <script src="table.js"></script>
+  <script src="export.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
