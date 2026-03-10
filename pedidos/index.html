@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,56 +11,125 @@
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-  <div class="page">
-    <header class="topbar">
-      <div class="title-area">
+  <div class="app">
+    <header class="app-header card">
+      <div class="header-left">
         <h1>Sistema de Pedidos de Sorvete</h1>
-        <p class="subtitle">Checklist rápido de estoque e pedidos</p>
+        <p class="subtitle">Inventario rapido com calculo automatico de pedidos.</p>
       </div>
-      <div class="controls">
-        <label class="control">
+      <div class="header-center">
+        <label class="field">
           <span>Loja</span>
           <select id="storeSelect"></select>
         </label>
-        <label class="control">
-          <span>Data do inventário</span>
+        <label class="field">
+          <span>Data do inventario</span>
           <input type="date" id="dateInput" />
         </label>
-        <div class="buttons">
-          <button id="saveBtn" class="primary">Salvar</button>
-          <button id="exportBtn" class="ghost">Exportar Excel</button>
-          <button id="resetBtn" class="ghost danger">Limpar</button>
+        <div class="button-group">
+          <button id="saveBtn" class="btn primary">Salvar</button>
+          <button id="exportBtn" class="btn ghost">Exportar Excel</button>
+          <button id="addFlavorBtn" class="btn ghost">Adicionar sabor</button>
         </div>
+      </div>
+      <div class="header-right">
+        <button id="themeToggle" class="icon-btn" aria-label="Alternar tema">
+          <span class="icon sun" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2"></path><path d="M12 20v2"></path>
+              <path d="M4.93 4.93l1.41 1.41"></path><path d="M17.66 17.66l1.41 1.41"></path>
+              <path d="M2 12h2"></path><path d="M20 12h2"></path>
+              <path d="M6.34 17.66l-1.41 1.41"></path><path d="M19.07 4.93l-1.41 1.41"></path>
+            </svg>
+          </span>
+          <span class="icon moon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z"></path>
+            </svg>
+          </span>
+        </button>
       </div>
     </header>
 
     <main class="card">
+      <div class="card-header">
+        <div>
+          <h2>Estoque por familia</h2>
+          <p class="muted">Clique nas familias para expandir e editar os itens.</p>
+        </div>
+        <div class="summary">
+          <span>Total a pedir</span>
+          <strong id="summaryTotal">0</strong>
+        </div>
+      </div>
       <div class="table-wrapper">
         <table id="productTable">
           <thead>
             <tr>
-              <th class="sticky">Produto</th>
-              <th class="sticky col-num">Estoque</th>
-              <th class="sticky col-num">Ideal</th>
-              <th class="sticky col-num">Pedir</th>
+              <th class="col-toggle">&nbsp;</th>
+              <th>Sabor</th>
+              <th class="col-num">Estoque</th>
+              <th class="col-num">Ideal</th>
+              <th class="col-num">Pedir</th>
+              <th class="col-actions">Acoes</th>
             </tr>
           </thead>
           <tbody id="tableBody"></tbody>
-          <tfoot>
-            <tr class="summary-row">
-              <td colspan="3">Total a pedir</td>
-              <td id="summaryTotal">0</td>
-            </tr>
-          </tfoot>
         </table>
       </div>
     </main>
   </div>
 
-  <script src="storage.js"></script>
-  <script src="calculations.js"></script>
-  <script src="table.js"></script>
-  <script src="export.js"></script>
-  <script src="app.js"></script>
+  <div class="modal" id="modalAdd" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalAddTitle">
+      <div class="modal-header">
+        <h3 id="modalAddTitle">Adicionar sabor</h3>
+        <button class="icon-btn" data-modal-close aria-label="Fechar">x</button>
+      </div>
+      <div class="modal-body">
+        <label class="field full">
+          <span>Nome do sabor</span>
+          <input type="text" id="flavorName" placeholder="Ex: Baunilha" />
+        </label>
+        <label class="field full">
+          <span>Familia</span>
+          <select id="flavorCategory"></select>
+        </label>
+        <label class="field full">
+          <span>Estoque ideal</span>
+          <input type="number" id="flavorIdeal" min="0" value="12" />
+        </label>
+      </div>
+      <div class="modal-footer">
+        <button class="btn ghost" data-modal-close>Cancelar</button>
+        <button class="btn primary" id="modalConfirm">Adicionar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modalDelete" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalDeleteTitle">
+      <div class="modal-header">
+        <h3 id="modalDeleteTitle">Remover sabor</h3>
+        <button class="icon-btn" data-modal-close aria-label="Fechar">x</button>
+      </div>
+      <div class="modal-body">
+        <p>Tem certeza que deseja remover este sabor?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn ghost" data-modal-close>Cancelar</button>
+        <button class="btn danger" id="deleteConfirmBtn">Excluir</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/calculations.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/table.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
